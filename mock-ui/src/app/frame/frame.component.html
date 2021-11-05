@@ -1,0 +1,2025 @@
+<div class="wrapper">
+  <header>
+      <mat-toolbar>
+        <span>入力ホームモック</span>
+      </mat-toolbar>
+  </header>
+  
+        <h3>ダッシュボード</h3>
+        <mat-tab-group animationDuration="0ms">
+          <!--基本情報-->
+           <mat-tab label="基本情報">
+
+            <mat-list class="infomation-area">
+              <p class="warning-word">各点検チェックリストは、1回でも回答開始すると編集はできません。複製機能をご利用ください</p>
+             
+                <mat-list-item>
+                  <span class="checkname">点検チェックリスト名</span>
+                  <span class="required">必須</span>
+                  <mat-form-field appearance="outline">
+                    <mat-label>入力してください</mat-label>
+                    <input id="checklist1" matInput placeholder="チェックリスト1" name="checklist1">
+                  </mat-form-field>
+                </mat-list-item>
+
+            
+                <mat-list-item>
+                  <span class="checkname">Excel格納先Boxフォルダ名</span>
+                  <span class="required">必須</span>
+                  <mat-form-field appearance="outline">
+                    <mat-label>入力してください</mat-label>
+                    <input id="boxfolder" matInput placeholder="folder" name="boxfolder">
+                  </mat-form-field>
+                </mat-list-item>
+
+
+                <mat-list-item>
+                  <span class="checkname">Excelファイル名</span>
+                  <span class="required">必須</span>
+                  <mat-form-field appearance="outline">
+                    <mat-label>入力してください</mat-label>
+                    <input id="excelfilename" matInput placeholder="Placeholder">
+                  </mat-form-field>
+                </mat-list-item>
+
+              <mat-list-item>
+                <span class="checkname">編集</span>
+                <span class="required">必須</span>
+                <mat-radio-group id="checkboxlist" aria-label="Select an option">
+                  <mat-radio-button name="inputchecked" value="1" checked>随時可能</mat-radio-button>
+                  <mat-radio-button name="inputchecked" value="2">当日可能</mat-radio-button>
+                  <mat-radio-button name="inputchecked" value="3">編集不可</mat-radio-button>
+                </mat-radio-group>                
+              </mat-list-item>
+
+
+              <section>
+                <div class="example-button-row">
+                  <button mat-flat-button color="primary" (click)="newSingUp()">
+                    <mat-icon aria-hidden="false" aria-label="Example circle icon">account_circle</mat-icon>
+                    登録
+                  </button>
+                </div>
+              </section>  
+
+            </mat-list>
+               
+           </mat-tab>
+
+           <!--チェックリスト-->
+           <mat-tab class="mat-tab2" label="チェックリスト"> 
+
+              <mat-list>
+                <mat-list-item>
+                  <span class="checklist-name">計算式設定</span>
+                  <span class="btn-cal">
+                    <section>
+                      <div class="example-button-row">
+                        <button class="plus-calc" mat-raised-button (click)="addRow()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          計算式
+                        </button>
+                      </div>
+                    </section>
+                  </span>
+                  <span class="checklist-name">+ボタンで計算式を追加します</span>
+
+                </mat-list-item>
+                <mat-list-item>
+                  <div class="example-button-delete">
+                    <button  class="delete-btn-icon" (click)="removeSelectedRows()" mat-raised-button mat-stroked-button color="warn">選択行を削除</button>
+                  </div>
+                </mat-list-item>
+
+              </mat-list>
+
+
+              <div class=".example-container mat-elevation-z8">
+                <mat-table #table [dataSource]="dataSource">
+
+                  <!-- Checkbox Column -->
+                  <ng-container matColumnDef="select">
+                    <mat-header-cell *matHeaderCellDef>
+                      選択
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row">
+                      <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selection.toggle(row) : null"
+                                    [checked]="selection.isSelected(row)">
+                      </mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
+              
+                  <!-- 番号 Column -->
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      {{element.id}}
+                    </mat-cell>
+                  </ng-container>
+              
+                  <!-- 計算式名称-->
+                  <ng-container matColumnDef="textname">
+                    <mat-header-cell *matHeaderCellDef> 計算式名称</mat-header-cell>
+                    <mat-cell *matCellDef="let element"> 
+                     <mat-form-field class="input-text-calc" appearance="outline">
+                      <mat-label>入力してください</mat-label>
+                      <input matInput placeholder={{element.textname}}>
+                    </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
+              
+              
+                  <!-- 値1 Column -->
+                  <ng-container matColumnDef="value1">
+                    <mat-header-cell *matHeaderCellDef> 値1 </mat-header-cell>
+                    <mat-cell *matCellDef="let element">
+                      <mat-form-field class="select-table-value" appearance="fill">
+                        <mat-label>選択してください</mat-label>
+                        <mat-select>
+                          <mat-option *ngFor="let nume of numevalue" [value]="nume.value">
+                            {{nume.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
+              
+                  <!-- 演算子 Column -->
+                  <ng-container matColumnDef="operation">
+                    <mat-header-cell *matHeaderCellDef> 演算子 </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> 
+                      <mat-form-field appearance="fill">
+                        <mat-select>
+                          <mat-option *ngFor="let oparate of oparation" [value]="oparate.value">
+                            {{oparate.valueName}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                     </mat-cell>
+                  </ng-container>
+              
+              
+                  <!-- 値2 Column -->
+                  <ng-container matColumnDef="value2">
+                    <mat-header-cell *matHeaderCellDef> 値2 </mat-header-cell>
+                    <mat-cell *matCellDef="let element"> 
+                      <mat-form-field class="select-table-value" appearance="fill">
+                        <mat-label>選択してください</mat-label>
+                        <mat-select>
+                          <mat-option *ngFor="let nume2 of numevalue2" [value]="nume2.value2">
+                            {{nume2.viewValue2}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
+              
+                  <!--table list-->
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"
+                           (click)="selection.toggle(row)">
+                  </mat-row>
+                </mat-table>
+              </div> 
+
+              
+              <!--Group1-->
+              <mat-list>
+                
+                <div class="example-action-buttons">
+                  <span class="second-sub-title">
+                    チェック項目設定
+                  </span>
+                  <span>
+                    <button class="group-add-plus" mat-raised-button (click)="GroupFrameOpen()">
+                      <mat-icon aria-hidden="false" aria-label="Example outline icon">add</mat-icon>
+                      項目グループ
+                    </button>
+                  </span>
+                 
+                </div> 
+
+                <mat-card id="Group-setting-frame" class="example-headers-align">
+
+                  <mat-list-item>
+                    <span><h3 class="group1-title">項目グループ1</h3></span>
+                    <span></span>
+                  </mat-list-item>
+                    
+                    <mat-list-item>
+                       <span class="checkname">表示条件</span>
+                       <span class="group-dis-right">なし</span>
+                    </mat-list-item>
+
+                    <mat-list-item>
+                      <span class="checkname">項目設定</span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button>
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          チェック
+                        </button>
+                      </span>
+                     
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          プルダウン
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          テキスト
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          数値
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          バーコード
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          ファイル
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                           動画
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                           計算式
+                        </button>
+                      </span>
+                    </mat-list-item> 
+
+
+                    <!--#1--> 
+                    <mat-card id="answer-card1" class="gropu1-answerformat">
+                      <div class="icon-confg">  
+                        <span class="no-area">
+                           #1
+                        </span>
+                        <span class="answer">
+                           回答形式
+                        </span>
+                        <span class="card-value">
+                           数値
+                        </span>
+                        <span class="card-check">
+                           チェック項目
+                        </span>
+                        <span class="text-option1--area">
+                          <mat-form-field class="text-option1" appearance="outline">
+                            <mat-label>テキスト項目1</mat-label>
+                              <input matInput placeholder="Placeholder">
+                          </mat-form-field>
+                        </span>
+                        <!--#1 selected1-->
+                        <span id="option-option1-areas" class="option1-option1-area" >
+                          <mat-form-field  class="option-opton1-area" appearance="fill">
+                            <mat-label>条件選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="selectedOption" (ngModelChange)="SelectOptionValue();" name="option">
+                              <mat-option value="" selected></mat-option>
+                              <mat-option *ngFor="let optionan of optionans" [value]="optionan.value">
+                                {{optionan.ViewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+                        <!--span 選択肢の時-->
+                        <span id="option-selected1" class="option1-option1-area">
+                          <span class="option-selected-title">選択肢</span>
+                          <span>
+                            <mat-form-field class="select-input-option1" appearance="outline">
+                              <mat-label>aaa,bbb,ccc</mat-label>
+                              <input matInput placeholder="Placeholder">
+                            </mat-form-field>
+                          </span>
+                        </span>
+
+                        <span class="checkbox-option1-area">
+                          <mat-checkbox class="example-margin">有効</mat-checkbox>
+                          <mat-checkbox class="example-margin">必須</mat-checkbox>
+                          <mat-checkbox class="example-margin">GPS</mat-checkbox>
+                          <mat-checkbox class="example-margin">TIME</mat-checkbox>
+                        </span>
+                       
+                        <span class="deletebtn-opton1-area">
+                          <button (click)="deleteGroupAnswer('number1');" class="btn-delete2" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
+                            <span class="material-icons clear-icons">
+                              clear
+                            </span>
+                          </button>
+                        </span>
+
+                        <span class="menu-icon-area">
+                         <button mat-icon-button aria-label="Example icon button with a menu icon">
+                            <mat-icon>menu</mat-icon>
+                          </button>
+                        </span>
+
+                      </div> 
+
+                        <!--#1 アラートボタン-->
+                        <div class="icon-confg2">
+                          <span class="">
+                            <button id="warning" mat-raised-button (click)="alertDisplay()">
+                              <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                              アラート
+                            </button>
+                          </span>
+                          <br>
+                          <!--#1 アラート詳細-->
+                          <div id="alert-class-area" class="alert-class-area">
+                             <mat-card class="alert-mat-area">
+                              <p>
+                                <span class="alert-keyword">アラート文言</span>
+                                <mat-form-field appearance="outline" class="alert-text">
+                                  <input matInput placeholder="(例):異常値が発生しています">
+                                </mat-form-field>
+                              </p>
+                              <p class="condition">
+                                条件
+                              </p>
+                              <p class="select-condition">
+
+                                <mat-form-field class="logical-area" appearance="fill">
+                                  <mat-label>ANDOR選択</mat-label>
+                                  <mat-select matNativeControl [(ngModel)]="selectOptionNameMain" required (ngModelChange)="InputConditionSharp1()" name="option-name">
+                                    <option value=""></option>
+                                   <mat-option *ngFor="let operationnamemains of operationnamemain" [value]="operationnamemains.value">
+                                      {{ operationnamemains.viewValue }}
+                                   </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                                
+                              </p>
+
+                              <p>
+                                <mat-card class="condition-sub-area">
+                                  <span class="input-name">
+                                    <label>入力値</label>
+                                  </span>
+                                
+                                 <!--条件1(数値)--> 
+                                  <span id="equalsign-display1">
+ 
+                                    <mat-form-field class="comparison-ope" appearance="fill">
+                                        <mat-label>入力値等号</mat-label>
+                                        <select matNativeControl id="select_sample_list" [(ngModel)]="AlertequalSign" (ngModelChange)="AlertequalSignJud()" required></select>
+                                    </mat-form-field>
+
+                                  </span>
+
+                                  <!--#1 数値選択時-->
+                                  <span id="numeselecttext">
+                                    <mat-form-field appearance="outline">
+                                      <input id="alert-numerical" [(ngModel)]="alertNumeValue" matInput placeholder="数値を入力してください: (例)0">
+                                    </mat-form-field>
+                                  </span>
+
+                                </mat-card>
+                              </p>
+                              <!--alert　条件処理-->
+                               <p> 
+                                 <!--条件設定追加-->
+                                 <mat-card id="text-area-add1">
+                                    <span class="input-name">
+                                      <label>入力値</label>
+                                    </span>
+
+                                  <div id="condition-add1">
+                                    <!--数値の場合 条件(等号) 1行め-->
+                                    <span>
+                                      <mat-form-field class="comparison-ope" id="equalsign-area-add1" appearance="fill">
+                                        <mat-label>入力値等号</mat-label>
+                                        <select matNativeControl id="select_sample_list2" [(ngModel)]="equalSignAdd1" (ngModelChange)="alertNumValAdd()"  required></select>
+                                      </mat-form-field>
+                                    </span>
+
+                                    <!--数値の場合 条件(テキスト) 1行め-->
+                                    <span>
+                                      <mat-form-field id="alert-display-num-add1" appearance="outline">
+                                        <input matInput placeholder="数値を入力してください: (例)0">
+                                      </mat-form-field>
+                                    </span>
+
+                                    <!--演算子の場合 条件(等号) 1行め-->
+                                  </div><!--end condition-add1-->
+                                 
+                                 </mat-card><!--end text-area-add1-->
+                               <p> 
+                                
+                                <!--条件設定追加3行 / 3行)-->
+
+                                <mat-card id="condition-add2">
+                                  <span class="input-name">
+                                      <label>入力値</label>
+                                  </span>
+                                  
+                                  
+                                  <span id="condition-add2-num">
+
+                                    <!--数値の場合 条件(等号) 2行め-->
+                                    <span>
+                                      <mat-form-field class="comparison-ope" appearance="fill">
+                                        <mat-label>入力値等号</mat-label>
+                                        <select matNativeControl id="select_sample_list3" [(ngModel)]="equalSignAdd2" (ngModelChange)="AlertOptonSelect2()" required></select>
+                                      </mat-form-field>
+                                    </span>
+
+                                    <!--数値の場合 条件(テキスト) 2行め-->
+                                    <span>
+                                      <mat-form-field appearance="outline">
+                                        <input matInput placeholder="数値を入力してください:(例)0">
+                                      </mat-form-field>
+                                    </span>
+
+
+                                  </span><!--end 数値-->
+
+                                </mat-card>
+
+                              <p>
+                                <!--alert 条件ボタン-->
+                                <span class="condition-area">
+                                  <button (click)="ConditonAlert1();" class="conditon-btn" mat-raised-button>
+                                    <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                                    条件
+                                  </button>
+                                </span>
+                                <span>
+                                  <mat-form-field class="logical-area" appearance="fill">
+                                    <mat-label>ANDOR選択</mat-label>
+                                    <mat-select matNativeControl [(ngModel)]="selectOptionName" required (ngModelChange)="InputCondition()" name="option-name">
+                                      <option value=""></option>
+                                     <mat-option *ngFor="let operationnames of operationname" [value]="operationnames.value">
+                                        {{ operationnames.viewValue}}
+                                     </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </span>
+                              </p>
+
+                             </mat-card>
+                              
+                          </div> 
+
+                        </div>
+
+                    </mat-card><!--end Group1 #1-->
+
+                    <!--#2--> 
+                    <mat-card id="answer-card2" class="gropu1-answerformat">
+                      <div class="icon-confg">  
+                        <span class="no-area">
+                           #2
+                        </span>
+                        <span class="answer">
+                           回答形式
+                        </span>
+                        <span class="card-value">
+                           数値
+                        </span>
+                        <span class="card-check">
+                           チェック項目
+                        </span>
+                        <span class="text-option1--area">
+                          <mat-form-field class="text-option1" appearance="outline">
+                            <mat-label>テキスト項目2</mat-label>
+                              <input matInput placeholder="Placeholder">
+                          </mat-form-field>
+                        </span>
+                        <!--#2 回答形式 プルダウン-->
+                        <span id="option-option1-areas2" class="option1-option1-area">
+                          <mat-form-field class="option-opton1-area" appearance="fill">
+                            <mat-label>条件選択</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="selectGroup1OptionSharp2" required (ngModelChange) = "SelectOptionValue2()" name="option-name">
+                              <mat-option *ngFor="let optionan of optionans" [value]="optionan.value">
+                                {{ optionan.ViewValue}}
+                             </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+                        
+                        <!--span selected1-->
+                        <span id="option-selected1-1" class="option1-option1-area">
+                          <span class="option-selected-title">選択肢</span>
+                          <span>
+                            <mat-form-field class="select-input-option1" appearance="outline">
+                              <mat-label>aaa,bbb,ccc</mat-label>
+                              <input matInput [(ngModel)]="Sharp2Inputint" placeholder="Placeholder">
+                            </mat-form-field>
+                          </span>
+                        </span>
+
+
+                        <!--#2 回答形式 チェックボックス-->
+                        <span class="checkbox-option1-area">
+                          <mat-checkbox class="example-margin">有効</mat-checkbox>
+                          <mat-checkbox class="example-margin">必須</mat-checkbox>
+                          <mat-checkbox class="example-margin">GPS</mat-checkbox>
+                          <mat-checkbox class="example-margin">TIME</mat-checkbox>
+                        </span>
+                       
+                        <span class="deletebtn-opton1-area">
+                          <button (click)="deleteGroupAnswer('number2');" class="btn-delete2" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
+                            <span class="material-icons clear-icons">
+                              clear
+                            </span>
+                          </button>
+                        </span>
+
+                        <span class="menu-icon-area">
+                         <button mat-icon-button aria-label="Example icon button with a menu icon">
+                            <mat-icon>menu</mat-icon>
+                          </button>
+                        </span>
+
+                      </div> 
+                        <!--アラートボタン #2-->
+                        <div class="icon-confg2">
+                          <span class="">
+                            <button id="warning2" mat-raised-button (click)="alertDisplaySharp()">
+                              <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                              アラート
+                            </button>
+                          </span>
+                          <br>
+                          <div id="alert-class-area2" class="alert-class-area" [style.display]="DisplaySetting2">
+                             <mat-card class="alert-mat-area">
+                              <p>
+                                <span class="alert-keyword">アラート文言</span>
+                                <mat-form-field appearance="outline">
+                                  <input matInput placeholder="(例):異常値が発生しています">
+                                </mat-form-field>
+                              </p>
+                              <p class="condition">
+                                条件
+                              </p>
+                              <p class="select-condition">
+                                <mat-form-field class="logical-area" appearance="fill">
+                                  <mat-label>ANDOR選択</mat-label>
+                                    <mat-select matNativeControl [(ngModel)]="AlertConditionSelect" (ngModelChange)="alertSelectOption()" required>
+                                      <mat-option *ngFor="let operationnamemains of operationnamemain" [value]="operationnamemains.value">  
+                                          {{operationnamemains.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                              </p>
+                              <p>
+                                <!--group2 その１-->  
+                                <mat-card class="condition-sub-area">
+                                  <span class="input-name">
+                                    <label>入力値</label>
+                                  </span>
+                                  <!--#2-->
+                                  <span>
+
+                                    <mat-form-field class="comparison-ope2" appearance="fill">
+                                      <mat-label>入力値等号</mat-label>
+                                        <select matNativeControl id="select_sample_list_sharp2" [(ngModel)]="selectConditionAlert2" (ngModelChange)="equalSignJudAlertSelect2()" required></select>
+                                    </mat-form-field>
+
+                                  </span>
+                                   <!--条件1(数値)--> 
+                                   <span id="equalsign-display1-2">
+                                    <mat-form-field class="comparison-ope" appearance="fill">
+                                      <mat-label>等号選択</mat-label>
+                                      <mat-select matNativeControl [(ngModel)]="equalSignAlert2" (ngModelChange)="equalSignJudAlertNum2()" required>
+                                        <mat-option *ngFor="let opeconditions of opecondition" [value]="opeconditions.value">  
+                                            {{opeconditions.viewValue}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </span>
+
+                                  <!--alert 条件2(選択肢)-->
+                                  <span id="equalsign-display2-2">
+                                    <mat-form-field class="comparison-ope" appearance="fill">
+                                      <mat-label>等号選択</mat-label>
+                                      <mat-select matNativeControl [(ngModel)]="equalSign2Alert2" (ngModelChange)="equalSignJudAlertCondition2()" required>
+                                        <mat-option *ngFor="let opeconditions2 of opecondition2" [value]="opeconditions2.value">  
+                                            {{opeconditions2.viewValue}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </span>
+
+                                  <!--#2 数値選択時-->
+                                  <span id="numeselecttext2">
+                                    <mat-form-field appearance="outline">
+                                      <input matInput [(ngModel)]="AlertNumInput2" placeholder="数値を入力してください(例)0">
+                                    </mat-form-field>
+                                  </span>
+                            
+                                </mat-card>
+                                
+
+                              </p>
+                              <p>
+                                <!--#2 条件追加の部分-->
+                                <span>
+                                  <button (click)="ConditonAlert2();" class="conditon-btn" mat-raised-button>
+                                    <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                                    条件
+                                  </button>
+                                </span>
+                                <span>
+                                  <mat-form-field class="option-add" appearance="fill">
+                                    <mat-label>ANDOR選択</mat-label>
+                                    <mat-select matNativeControl [(ngModel)] = "selectOptionConditionAdd" (ngModelChange)="InputOptionAdd()" required>
+                                      <mat-option *ngFor="let operationnamemains of operationnamemain" [value]="operationnamemains.value">
+                                        {{ operationnamemains.viewValue}}
+                                     </mat-option>
+                                    </mat-select>
+                                  </mat-form-field> 
+                                </span>
+                              </p>
+                             </mat-card>
+                              
+                          </div> 
+
+                        </div>
+
+                    </mat-card><!--end Group1 #2-->
+
+              
+                </mat-card>
+                
+              </mat-list>
+              <!--end Group1-->
+
+              <!--Group2(こちらに一旦HTMLフォーマット作成)-->
+               <mat-list>
+                  <mat-card id="Group-setting-frame2" class="Group2">            
+                    <mat-toolbar color="basic" class="header-group2">
+                      <div class="sub-title-group2">
+                          <h5>項目グループ 2</h5>
+                      </div>
+
+                      <div class="icon-area">
+                        <div class="menu-icon-area2">
+                          <button (click)="deleteGroupCard('group3')" class="btn-delete2" mat-fab color="primary" aria-label="Example icon button with a bookmark icon">
+                            <span class="material-icons clear-icons　clear-icons2">
+                              clear
+                            </span>
+                          </button>
+                        </div>
+              
+                        <div class="menu-icon-area2">
+                          <button class="menu-icon-group2" mat-icon-button aria-label="Example icon button with a menu icon">
+                            <mat-icon>menu</mat-icon>
+                          </button>
+                        </div>
+                      </div>        
+                    </mat-toolbar>
+                              
+                    <!--グループ3 条件選択1-->
+                    <div class="group2-disp">
+                      <div class="checkname2">表示条件</div>
+                    </div>
+
+                      <!--Group2 条件設定-->
+                       <mat-card class="frame-set">
+                          <!--bool 設定--> 
+                          <mat-list-item>
+                             <section class="frame-sec">
+                              <div class="flexbox">
+                                  <div class="group-dis-calc top-calc-set">
+                                    AND
+                                  </div>
+                                  <div>
+                                    <button class="group-dis-calcbtn" mat-raised-button (click)="openDialog()">
+                                      <span class="material-icons">
+                                        edit
+                                      </span>
+                                      編集
+                                    </button>
+                                  </div>
+                                  <div class="sub-delete">
+                                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+                                      <mat-icon>delete</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>    
+                            </section>
+                          </mat-list-item>
+                               
+                          <!--1段目-->
+                          <mat-card class="group2-card-area">
+                            <mat-list-item>
+                              <span class="span-setting-data1">{{equalSignGropu3No2}}</span>
+                              <span class="span-setting-data1">></span>
+                              <span class="span-setting-data1">項目B</span>
+              
+                              <span class="btn-setting-data1">
+                                <button mat-raised-button (click)="subDialog()">
+                                  <span class="material-icons">
+                                    edit
+                                  </span>
+                                    編集
+                                </button>
+                              </span>
+                              <span class="btn-setting-data1">
+                                <button mat-raised-button (click)="DialogDelete()" color="primary">
+                                  <span class="material-icons">
+                                    delete
+                                  </span>
+                                  削除
+                                </button>
+                              </span>
+                            </mat-list-item>
+                          </mat-card>
+              
+                          <!--2行目--> 
+                          <mat-card class="group2-card-area">
+                           <mat-list-item>
+                              <span class="span-setting-data1">{{equalSignGropu3Set2}}</span>
+                              <span class="span-setting-data1"> < </span>
+                              <span class="span-setting-data1"> 1000</span>
+                              <span class="btn-setting-data1">
+                                <button mat-raised-button>
+                                  <span class="material-icons">
+                                    edit
+                                  </span>
+                                  編集
+                                </button>
+                              </span>
+                              <span class="btn-setting-data1">
+                                <button mat-raised-button color="primary">
+                                  <span class="material-icons">
+                                    delete
+                                  </span>
+                                  削除
+                                </button>
+                              </span>
+                           </mat-list-item>
+                          </mat-card>
+              
+                          <!--3行目-->
+                          <mat-card class="group2-card-area">
+                           <mat-list-item>
+                             <span class="span-setting-data1">項目C</span>
+                             <span class="span-setting-data1"> == </span>
+                             <span class="span-setting-data1"> 2,000 </span>
+                             <span class="btn-setting-data1">
+                                <button mat-raised-button>
+                                  <span class="material-icons">
+                                    edit
+                                  </span>
+                                  編集
+                                </button>
+                             </span>
+                             <span class="btn-setting-data1">
+                                <button mat-raised-button color="primary">
+                                  <span class="material-icons">
+                                    delete
+                                  </span>
+                                  削除
+                                </button>
+                             </span>
+                           </mat-list-item>
+                          </mat-card>
+
+                          <!--行追加-->
+                          <mat-card id="line-add-frame" class="group2-card-area">
+                            <mat-list-item>
+                              <span class="span-setting-data1">項目DD</span>
+                              <span class="span-setting-data1"> == </span>
+                              <span class="span-setting-data1"> 2,000 </span>
+                              <span class="btn-setting-data1">
+                                 <button mat-raised-button>
+                                   <span class="material-icons">
+                                     edit
+                                   </span>
+                                   編集
+                                 </button>
+                              </span>
+                              <span class="btn-setting-data1">
+                                 <button mat-raised-button color="primary">
+                                   <span class="material-icons">
+                                     delete
+                                   </span>
+                                   削除
+                                 </button>
+                              </span>
+                            </mat-list-item>
+                           </mat-card>
+
+                          <!--ブロック表示-->
+                          <mat-card id="sub-card-area">
+                            <mat-list-item>
+                              <section class="frame-sec">
+                                <div class="flexbox">
+                                  <div class="group-dis-calc top-calc-set2">項目グループ</div>
+                                  <div id="btn-new-area" class="messege-sub">
+                                    <button class="group-dis-calcbtn" mat-raised-button (click)="NewSetting()">
+                                      <span class="material-icons">
+                                        edit
+                                      </span>
+                                        新規設定
+                                    </button>
+                                  </div>
+                                  <div id="no-setting-mess" class="no-setteing-me">{{NoSetTitle}}</div> 
+                                  <div class="sub-delete">
+                                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+                                      <mat-icon>delete</mat-icon>
+                                    </button>
+                                  </div>
+                                </div>  
+                              </section>
+
+                            </mat-list-item>
+                            <!--サブブロック追加行-->
+                            <mat-card id="sub-new-setting-row" class="group2-card-area">
+                              <mat-list-item>
+                                <span class="span-setting-data1">項目C</span>
+                                <span class="span-setting-data1"> == </span>
+                                <span class="span-setting-data1"> 2,000 </span>
+                                <span class="btn-setting-data1">
+                                   <button mat-raised-button>
+                                     <span class="material-icons">
+                                       edit
+                                     </span>
+                                     編集
+                                   </button>
+                                </span>
+                                <span class="btn-setting-data1">
+                                   <button mat-raised-button color="primary">
+                                     <span class="material-icons">
+                                       delete
+                                     </span>
+                                     削除
+                                   </button>
+                                </span>
+                              </mat-list-item>
+                             </mat-card>
+
+
+                              <mat-card id="sub-nest-line" class="group2-card-area">
+                                <mat-list-item>
+                                  <span class="span-setting-data1">項目AA</span>
+                                  <span class="span-setting-data1"> == </span>
+                                  <span class="span-setting-data1"> 2,000 </span>
+                                  <span class="btn-setting-data1">
+                                   <button mat-raised-button>
+                                     <span class="material-icons">
+                                       edit
+                                     </span>
+                                     編集
+                                   </button>
+                                  </span>
+                                  <span class="btn-setting-data1">
+                                   <button mat-raised-button color="primary">
+                                     <span class="material-icons">
+                                       delete
+                                     </span>
+                                     削除
+                                   </button>
+                                  </span>
+                                </mat-list-item>
+                             </mat-card>
+
+                             <!--サブブロック追加-->
+                             <mat-card id="sub-nest-block" class="group2-card-area">
+                                <mat-list-item>
+                                  <section class="frame-sec">
+                                   <div class="flexbox">
+                                      <div class="group-dis-calc top-calc-set">OR</div>
+                                      <div>
+                                        <button class="group-dis-calcbtn" mat-raised-button>
+                                          <span class="material-icons">
+                                          edit
+                                          </span>
+                                          編集
+                                        </button>
+                                      </div> 
+                                      <div class="sub-delete">
+                                        <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+                                        <mat-icon>delete</mat-icon>
+                                        </button>
+                                      </div>
+                                    </div>  
+                                  </section>
+                                  
+                                </mat-list-item>
+                                <mat-card id="sub-nest2-line" class="group2-card-area">
+                                  <mat-list-item>
+                                    <span class="span-setting-data1">項目AD</span>
+                                    <span class="span-setting-data1"> == </span>
+                                    <span class="span-setting-data1"> 2,000 </span>
+                                    <span class="btn-setting-data1">
+                                     <button mat-raised-button>
+                                       <span class="material-icons">
+                                         edit
+                                       </span>
+                                       編集
+                                     </button>
+                                    </span>
+                                    <span class="btn-setting-data1">
+                                     <button mat-raised-button color="primary">
+                                       <span class="material-icons">
+                                         delete
+                                       </span>
+                                       削除
+                                     </button>
+                                    </span>
+                                  </mat-list-item>
+                               </mat-card>
+                                
+                                <!--ブロック追加 / 行追加-->
+                                <div class="btn-flex">
+                                  <div>
+                                    <button (click)="blockAddSub()" mat-raised-button>
+                                    <span class="material-icons">add_to_photos</span>
+                                      ブロック追加
+                                    </button>
+                                  </div>
+                                  <div class="line-btn-area">
+                                    <button (click)="SubAddTbMain()" mat-raised-button color="primary">
+                                    <span class="material-icons">loupe</span>
+                                      行追加
+                                    </button>
+                                  </div>
+                                </div>
+                              </mat-card>
+
+
+                            <!--ブロック追加 / 行追加-->
+                            <div id="btn-block-subarea" class="btn-flex">
+                              <div>
+                                <button (click)="blockAddSub()" mat-raised-button>
+                                <span class="material-icons">add_to_photos</span>
+                                  ブロック追加
+                                </button>
+                              </div>
+                              <div class="line-btn-area">
+                                <button (click)="SubAddTb()" mat-raised-button color="primary">
+                                <span class="material-icons">loupe</span>
+                                  行追加
+                                </button>
+                              </div>
+                            </div>
+
+                          </mat-card>
+
+                          <div class="btn-flex">
+                            <div>
+                              <button mat-raised-button (click)="blockAdd()">
+                              <span class="material-icons">add_to_photos</span>
+                                ブロック追加
+                              </button>
+                            </div>
+                            <div class="line-btn-area">
+                              <button (click)="LineFrame()" mat-raised-button color="primary">
+                              <span class="material-icons">loupe</span>
+                                行追加
+                              </button>
+                            </div>
+                         </div>
+
+                       </mat-card>    
+              
+                        <!--bool 設定(2かいめ)-->
+                        <mat-card class="frame-set">   
+
+                          <mat-list-item>
+                            <section class="frame-sec">
+                              <div class="flexbox">
+                                <div class="group-dis-calc top-calc-set">OR</div>
+                                <div>
+                                  <button class="group-dis-calcbtn" mat-raised-button>
+                                    <span class="material-icons">
+                                      edit
+                                    </span>
+                                      編集
+                                  </button>
+                                </div> 
+                                <div class="sub-delete">
+                                  <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+                                    <mat-icon>delete</mat-icon>
+                                  </button>
+                                </div>
+                              </div>  
+                            </section>
+                          </mat-list-item>
+
+                           <!--ブロック2段目 1行目-->
+                           <mat-card class="group3-card-area2">
+                            <mat-list-item>
+                              <span class="span-setting-data1">項目D</span>
+                              <span class="span-setting-data1"> > </span>
+                              <span class="span-setting-data1"> 項目E </span>
+                              <span class="btn-setting-data1">
+                                <button mat-raised-button>
+                                  <span class="material-icons">
+                                    edit
+                                  </span>
+                                  編集
+                                </button>
+                              </span>
+                                  <span class="btn-setting-data1">
+                                    <button mat-raised-button color="primary">
+                                      <span class="material-icons">
+                                        delete
+                                      </span>
+                                      削除
+                                    </button>
+                                  </span>
+                            </mat-list-item>
+                           </mat-card>
+              
+                          <!--ブロック2段目 2行目-->
+                          <mat-card class="group3-card-area2">
+                              <mat-list-item>
+                                  <span class="span-setting-data1">項目E</span>
+                                  <span class="span-setting-data1"> == </span>
+                                  <span class="span-setting-data1"> 5,000 </span>
+                                  <span class="btn-setting-data1">
+                                      <button mat-raised-button>
+                                        <span class="material-icons">
+                                          edit
+                                        </span>
+                                        編集
+                                      </button>
+                                  </span>
+                                      <span class="btn-setting-data1">
+                                        <button mat-raised-button color="primary">
+                                          <span class="material-icons">
+                                            delete
+                                          </span>
+                                          削除
+                                        </button>
+                                      </span>
+                              </mat-list-item>
+                          </mat-card>
+
+
+                          <div class="btn-flex">
+                            <div>
+                              <button mat-raised-button>
+                              <span class="material-icons">add_to_photos</span>
+                                ブロック追加
+                              </button>
+                            </div>
+                            <div class="line-btn-area"> 
+                              <button mat-raised-button color="primary">
+                              <span class="material-icons">loupe</span>
+                              行追加
+                              </button>
+                            </div>
+                          </div>
+                         
+                        </mat-card> 
+
+              
+                        <!--bool 設定(3かいめ)--> 
+                          <mat-card class="frame-set">   
+                              <mat-list-item>
+                                <section class="frame-sec">
+                                  <div class="flexbox">
+                                  <div class="group-dis-calc top-calc-set">AND</div>
+                                  <div>
+                                    <button class="group-dis-calcbtn" mat-raised-button>
+                                    <span class="material-icons">
+                                      edit
+                                    </span>
+                                    編集
+                                    </button>
+                                  </div>
+                                  <div class="sub-delete">
+                                    <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon">
+                                      <mat-icon>delete</mat-icon>
+                                    </button>
+                                  </div>
+                                  </div> 
+                                </section>
+                              </mat-list-item>
+              
+                              <!--ブロック3段目 1行目-->
+                              <mat-card class="group3-card-area3">
+                              <mat-list-item>
+                                <span class="span-setting-data1">項目E</span>
+                                <span class="span-setting-data1"> > </span>
+                                <span class="span-setting-data1"> 項目F</span>
+                                <span class="btn-setting-data1">
+                                  <button mat-raised-button>
+                                    <span class="material-icons">
+                                      edit
+                                    </span>
+                                    編集
+                                  </button>
+                                </span>
+                                <span class="btn-setting-data1">
+                                    <button mat-raised-button color="primary">
+                                      <span class="material-icons">
+                                        delete
+                                      </span>
+                                      削除
+                                    </button>
+                                </span>
+                              </mat-list-item>
+                              </mat-card>
+              
+                              <!--ブロック3段目 2行目-->
+                              <mat-card class="group3-card-area3">
+                              <mat-list-item>
+                                <span class="span-setting-data1">項目F</span>
+                                <span class="span-setting-data1">  ≠ </span>
+                                <span class="span-setting-data1"> 項目G</span>
+                                <span class="btn-setting-data1">
+                                  <button mat-raised-button>
+                                    <span class="material-icons">
+                                      edit
+                                    </span>
+                                    編集
+                                  </button>
+                                </span>
+                                <span class="btn-setting-data1">
+                                  <button mat-raised-button color="primary">
+                                    <span class="material-icons">
+                                      delete
+                                    </span>
+                                    削除
+                                  </button>
+                                </span>
+                              </mat-list-item>
+                              </mat-card>
+
+                              <div class="btn-flex">
+                                <div class="line-btn-area">
+                                  <button mat-raised-button>
+                                  <span class="material-icons">add_to_photos</span>
+                                    ブロック追加
+                                  </button>
+                                </div>
+                                <div>
+                                  <button mat-raised-button color="primary">
+                                  <span class="material-icons">loupe</span>
+                                  行追加
+                                  </button>
+                                </div>
+                             </div>
+
+                          </mat-card>
+
+                          <!--ブロック追加-->
+                          <mat-list-item>
+                           <div class="block-btn"> 
+                             <button mat-raised-button>
+                              <span class="material-icons">add_to_photos</span>
+                              ブロック追加
+                             </button>
+                          </div> 
+                         </mat-list-item>
+
+                  </mat-card>
+               </mat-list>
+               <!--end Group2-->
+
+              <!--Group3 -->
+              <mat-list>
+                <mat-card id="Group-setting-frame3" class="Group2">
+                    <mat-toolbar color="basic" class="header-group2">
+                      <div class="sub-title-group2">
+                        <h5>項目グループ 3</h5>
+                      </div>
+                      <!--右側のclearボタン--> 
+                      <div class="icon-area">
+                        <div class="menu-icon-area2">
+                        <button (click)="deleteGroupCard('group2');" class="btn-delete2" mat-fab color="primary" aria-label="Example icon button with a bookmark icon">
+                          <span class="material-icons clear-icons　clear-icons2">
+                            clear
+                          </span>
+                        </button>
+                        </div>
+                        <div class="menu-icon-area2">
+                          <button class="menu-icon-group2" mat-icon-button aria-label="Example icon button with a menu icon">
+                           <mat-icon>menu</mat-icon>
+                         </button>
+                        </div>
+                      </div> 
+                    </mat-toolbar>
+                  
+                    
+                   <!--メインロジック--> 
+                   <div id="group2-conditiondis">
+                     <!--条件選択(一旦コメントアウト)-->
+                     <span class="groupid-condition-span">表示条件</span>
+
+                     <span>
+                      <mat-form-field class="logical-area" appearance="fill">
+                        <mat-label>条件選択</mat-label>
+                        
+                        <mat-select matNativeControl [(ngModel)]="selectDisplay2OptionName" required (ngModelChange)="Group2MainDisplayInputCondition()" name="option-name">
+                          <option value=""></option>
+                         <mat-option *ngFor="let operationnames of operationname" [value]="operationnames.value">
+                            {{ operationnames.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                        
+                       </mat-form-field>
+                     </span>
+                    
+                   </div>
+
+                    <!--group2 条件カード その1-->
+                    <div class="group-card1-display">
+                      <mat-card id="itemgroup2-main" class="condition-sub-area group2-card-display">
+                      
+                        <div class="select-group-conditions">
+                          <!--表示条件 1-->
+                          <span class="display-span-group2">表示条件</span>
+                          
+                          <span>
+                              <mat-form-field class="Group2-display2-2" appearance="fill">
+                                <mat-label>選択してください</mat-label>
+                                <mat-select matNativeControl [(ngModel)]="numericalItem" (ngModelChange)="numericaItem()" required>
+                                  <mat-option *ngFor="let numericalitems of numericalitem" [value]="numericalitems.value">
+                                    {{numericalitems.ViewValue}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                          </span>
+                        </div>
+
+                        <!--メインロジック 上段　数値選択時 select-->
+                         <span id="group2num-part1-disp">
+                            <mat-form-field class="comparison-ope" appearance="fill">
+                              <mat-label>数値時等号選択</mat-label>
+                              <select matNativeControl id="select_group2_numlist1" [(ngModel)]="equalGroup2NumPart1" (ngModelChange)="equalSignJudMain1()" required ></select>
+                            </mat-form-field>
+                          </span>
+
+                          <!--メインロジック 上段 計算式選択時 select-->
+                          <span id="group2choice-part1-num">
+                              <mat-form-field class="comparison-ope" appearance="fill">
+                              <mat-label>計算式選択</mat-label>
+                              <select matNativeControl id="select_opton_numlist2" [(ngModel)]="equalGroup2ChoicePart2" (ngModelChange)="equalSignGroup2ChiceJud2()" required></select>
+                            </mat-form-field>
+                          </span>
+
+                          <!--メインロジック 上段 選択肢選択時 select-->
+                          <span id="group2choice-part1-disp">
+                            <mat-form-field class="comparison-ope" appearance="fill">
+                              <mat-label>選択肢等号選択</mat-label>
+                              <select matNativeControl id="select_opton_choice_group2" [(ngModel)]="equalGroup2ChoicePart1" (ngModelChange)="equalSignGroup2ChiceJud()" required></select>
+                            </mat-form-field>
+                          </span>
+
+                          <!--グループ2 数値選択時 テキスト その1-->
+                          <span id="group2-select-num-part1">
+                            <mat-form-field class="group2-disp2-input" appearance="outline">
+                              <input id="group2-text-number"[(ngModel)]="numberGroupValue" matInput placeholder="数値を入力してください (例)0">
+                            </mat-form-field>
+                          </span>
+
+                          <!--グループ2 計算式選択時 テキスト その1-->
+                          <span id="group2-calc-select-part1">
+                            <mat-form-field class="group2-disp2-input" appearance="outline">
+                              <input id="group2-text-calctext"[(ngModel)]="calcGroup2Value" matInput placeholder="数値を入力してください (例)0">
+                            </mat-form-field>
+                          </span>
+
+                          <!--グループ2 選択肢選択時 テキスト その1-->
+                          <span id="group2-select-choice-part1">
+                            <mat-form-field class="group2-disp2-input" appearance="outline">
+                              <input id="group2-choice-text"[(ngModel)]="Group2ChoiceValueText" disabled value={{Group2textChoicePart1}} matInput placeholder="選択された等号が入ります">
+                            </mat-form-field>
+                          </span>
+                          <span id="clear_btn1_area">
+                            <button (click)="onClearClick('clear_btn1')" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                            <span class="material-icons">
+                              clear
+                            </span>
+                            </button>
+                          </span> 
+                      </mat-card>
+                    </div>
+
+                    <!--group2 条件カード その2(下段)-->
+                    <div class="group-card-display">
+                      <mat-card id="itemgroup2-main-part2" class="condition-sub-area mat-card-group2-part2">
+                       <!--表示条件 2--> 
+                       <div class="select-group-conditions">
+                          <span class="display-span-group2">
+                              表示条件
+                          </span>
+                          <!--項目グループ2 下段 条件選択-->
+                          <span>
+                            <mat-form-field class="Group2-display2-2" appearance="fill">
+                              <mat-label>選択してください</mat-label>
+                              <mat-select matNativeControl [(ngModel)]="equalSignGropu2No2" (ngModelChange)="equalSignJudGropu2No2()" required>
+                                <mat-option *ngFor="let numericalitemgropu2vol2s of numericalitemgropu2vol2" [value]="numericalitemgropu2vol2s.value">
+                                      {{numericalitemgropu2vol2s.ViewValue}}
+                                </mat-option>
+                              </mat-select>
+                              </mat-form-field>
+                          </span>
+                       </div>
+
+                      <!--グループ2 数値-->
+                      <span id="group2-numval-part2">
+                          <mat-form-field class="comparison-ope" appearance="fill">
+                              <mat-label>数値時等号選択</mat-label>
+                              <select matNativeControl id="select_num2_group2" [(ngModel)]="Group2Part2Num" (ngModelChange)="SelectNumValueGroup2()" required></select>
+                          </mat-form-field>
+                      </span>
+                      <!--グループ2 計算式-->
+                      <span id="group2-calcval2-part2">
+                          <mat-form-field class="comparison-ope" appearance="fill">
+                              <mat-label>計算式等号選択</mat-label>
+                              <select matNativeControl id="select_option2_numlist2" [(ngModel)]="Group2Part2Calc2" (ngModelChange)="SelectCalcValueGroup2()" required></select>
+                          </mat-form-field>
+                      </span>
+                      <!-- グループ2 選択肢-->
+                      <span id="group2-choiche-part2">
+                        <mat-form-field class="comparison-ope" appearance="fill">
+                          <mat-label>選択肢選択</mat-label>
+                          <mat-select matNativeControl [(ngModel)]="Group2Part2Choce" (ngModelChange)="SelectChiceGroup2()" required>
+                            <mat-option *ngFor="let opeconditiongroup2part2s of opeconditiongroup2part2" [value]="opeconditiongroup2part2s.viewValue">  
+                                 {{opeconditiongroup2part2s.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </span>
+                      <!--グループ2 数値選択時 テキスト その2-->
+                      <span id="group2-numvalue-disp2">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                              <input id="group2-text-number2" [(ngModel)]="numberGroupValue2" matInput placeholder="数値を入力してください (例)0">
+                          </mat-form-field>
+                      </span>
+                      <!--グループ2 選択肢選択時 テキスト その2-->
+                      <span id="group2-choice-disp2">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input id="group2-text-choice" [(ngModel)]="numberGroupValueChoice2" disabled matInput value={{Group2Part2ChoiceText}} placeholder="選択された等号が入力されます" >
+                           </mat-form-field>
+                      </span>
+                      
+                      <span id="clear_btn2_area">
+                          <button (click)="onClearClick('clear_btn2')" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                            <span class="material-icons">clear</span>
+                          </button>
+                      </span> 
+                      </mat-card>
+                      <!--上下2つのカードが条件に合わない時-->
+                      <div id="condition-group2-error">
+                        数値の設定した条件が不正です
+                      </div>
+                    </div>  
+
+                    <!--group2 条件設定(ANDOR)-->
+                   <div id="group2-conditiondis-subsettiting" class="group2-display2">
+                      <!--2段目 論理演算-->
+                      <span class="setting-testes">
+                        <mat-form-field class="logical-area logical-area-group2" appearance="fill">
+                          <mat-label>条件選択</mat-label>
+                          <mat-select matNativeControl [(ngModel)]="selectOptionNameSecond" required (ngModelChange)="InputConditionSecond()" name="option-name">
+                            <option value=""></option>
+                          <mat-option *ngFor="let operationnames of operationname" [value]="operationnames.value">
+                            {{ operationnames.viewValue}}
+                          </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </span>
+                   </div>
+
+                   <!--group2 条件カード その２の1-->
+                   <div class="card-frame-display">
+                     <mat-card id="itemgroup2-main-part3"  class="condition-sub-area mat-card-group2-part2">
+
+                      <div class="select-group-conditions2">
+                        <!--表示条件 3-->
+                        <span class="display-span-group2">表示条件</span>
+                        <span>
+                          <mat-form-field class="Group2-display2-2" appearance="fill">
+                              <mat-label>選択してください</mat-label>
+                                  <mat-select matNativeControl [(ngModel)]="select2ConditionAlert2" (ngModelChange)="equalSignJud2AlertSelect2()" required>
+                                    <mat-option *ngFor="let numericalitemgropu2vol2s of numericalitemgropu2vol2" [value]="numericalitemgropu2vol2s.value">  
+                                        {{numericalitemgropu2vol2s.ViewValue}}
+                                    </mat-option>
+                                  </mat-select>
+                          </mat-form-field>
+                        </span>
+                     </div> 
+
+                      <!--条件2(数値)--> 
+                      <span id="equalsign2-display2-2">
+                        <mat-form-field class="comparison-ope" appearance="fill">
+                          <mat-label>等号選択</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="equalSignDisp1Alert2" (ngModelChange)="equal2SignJudAlertNum2()" required>
+                              <mat-option *ngFor="let opeconditions of opecondition" [value]="opeconditions.value">  
+                                   {{opeconditions.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                      </span>
+
+                      <!--条件2(選択肢)-->
+                      <span id="equal2sign2-display2-2">
+                        <mat-form-field class="comparison-ope" appearance="fill">
+                          <mat-label>等号選択</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="equalSign2Alert2" (ngModelChange)="equal2SignJudAlertCondition2()" required>
+                                <mat-option *ngFor="let opeconditions2 of opecondition2" [value]="opeconditions2.value">  
+                                    {{opeconditions2.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                      </span>
+
+                      <!--数値選択時-->
+                      <span id="num2selecttext2">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input matInput [(ngModel)]="AlertNumInput2" placeholder="数値を入力してください(例)0">
+                          </mat-form-field>
+                      </span>
+                      <!--選択肢選択時-->
+                      <span id="num2selectoption2">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                              <input matInput  disabled placeholder="=, ≠選択したどちらかが入力されます" value={{Alert2OptionSelectValue2}}>
+                          </mat-form-field>  
+                      </span>
+                      <!--クリアボタン-->
+                       <span id="clear_btn3_area">
+                        <button (click)="onClearClick('clear_btn3')" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                          <span class="material-icons">clear</span>
+                        </button>
+                      </span> 
+                     </mat-card>
+                   </div>
+
+                   <div class="card-frame-display">
+                      <mat-card id="item2group2-main-part2" class="condition-sub-area mat-card-group2-part2">
+                          <!--表示条件 4-->
+                          <div class="select-group-conditions2">
+                              <span class="display-span-group2">表示条件</span>
+                              <!--項目グループ2 下段 条件選択-->
+                              <span>
+                                <mat-form-field class="Group2-display2-2" appearance="fill">
+                                  <mat-label>選択してください</mat-label>
+                                  <mat-select matNativeControl [(ngModel)]="equal2SignGropu2No2" (ngModelChange)="equal2SignJudGropu2No2()" required>
+                                  <mat-option *ngFor="let numericalitemgropu2vol2s of numericalitemgropu2vol2" [value]="numericalitemgropu2vol2s.value">
+                                      {{numericalitemgropu2vol2s.ViewValue}}
+                                  </mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                             </span>
+                          </div>
+                      <!--グループ2 数値・計算式-->
+                      <span id="group2-numval2-part2">
+                          <mat-form-field class="comparison-ope" appearance="fill">
+                              <mat-label>等号選択</mat-label>
+                              <mat-select matNativeControl [(ngModel)]="Group2Part2Num2" (ngModelChange)="Select2NumValueGroup2()" required>
+                               <mat-option *ngFor="let opeconditiongroup2part1s of opeconditiongroup2part1" [value]="opeconditiongroup2part1s.value">  
+                                    {{opeconditiongroup2part1s.viewValue}}
+                               </mat-option>
+                             </mat-select>
+                          </mat-form-field>
+                      </span>
+                      <!-- グループ2 選択肢-->
+                      <span id="group2-choiche2-part2">
+                        <mat-form-field class="comparison-ope" appearance="fill">
+                          <mat-label>選択してください</mat-label>
+                          <mat-select matNativeControl [(ngModel)]="Group2Part2Choce2" (ngModelChange)="Select2ChiceGroup2()" required>
+                            <mat-option *ngFor="let opeconditiongroup2part2s of opeconditiongroup2part2" [value]="opeconditiongroup2part2s.viewValue">  
+                                 {{opeconditiongroup2part2s.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </span>
+                      <!--グループ2 数値選択時 テキスト その2-->
+                      <span id="group2-numvalue2-disp2">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                              <input id="group2-text2-number2" [(ngModel)]="numberGroup2Value2" matInput placeholder="数値を入力してください (例)0">
+                          </mat-form-field>
+                      </span>
+                      <!--グループ2 選択肢選択時 テキスト その2-->
+                      <span id="group2-choice2-disp2">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input id="group2-text2-choice" [(ngModel)]="numberGroupValueChoice2" disabled matInput value={{Group2Part2ChoiceText}} placeholder="選択された等号が入力されます" >
+                          </mat-form-field>
+                      </span>
+                      <!--クリアボタン-->
+                      <span>
+                        <button (click)="onClearClick('clear_btn4')" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                          <span class="material-icons">clear</span>
+                        </button>
+                      </span> 
+                    </mat-card>
+                      <!--上下2つのカードが条件に合わない時-->
+                      <div id="condition-group2-error">
+                        数値の設定した条件が不正です
+                      </div>
+                   </div>
+
+                   <!--条件ボタン(上)-->
+                    <div class="condition-area-group2">
+                     <span class="group2-addbutton">
+                       <button id="setting-btn" mat-raised-button (click)="settingOpe('group2-group1')">
+                         <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                         条件
+                       </button>
+                     </span>
+
+                     <span class="setting-testes">
+                       <mat-form-field class="logical-area logical-area-group2" appearance="fill">
+                         <mat-label>条件選択してください</mat-label>
+                         <mat-select matNativeControl [(ngModel)]="selectOptionNameSecond2" required (ngModelChange)="InputConditionSecond2()" name="option-name">
+                           <option value=""></option>
+                          <mat-option *ngFor="let operationnames of operationname" [value]="operationnames.value">
+                            {{ operationnames.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                        </mat-form-field>
+                     </span>
+                    </div> 
+
+                  <!--条件ボタン(下)-->
+                   <div class="condition-area-setting">
+                      <span class="group2-addbutton">
+                        <button id="setting-btn" mat-raised-button (click)="settingOpe('group2-group1')">
+                        <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          条件
+                        </button>
+                      </span>
+
+                      <span class="setting-testes">
+                        <mat-form-field class="logical-area logical-area-group2" appearance="fill">
+                          <mat-label>条件選択してください</mat-label>
+                          <mat-select matNativeControl [(ngModel)]="selectOptionNameSecond3" required (ngModelChange)="InputConditionSecond3()" name="option-name">
+                            <mat-option *ngFor="let operationnames of operationname" [value]="operationnames.value">
+                                {{ operationnames.viewValue}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </span>
+                   </div>
+
+                   <!--グループ２項目設定-->
+                   <div class="group2-item-setting">
+                    <span class="groupid-condition-span item-group2-title">項目設定</span>
+
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addTestGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          チェック
+                        </button>
+                      </span>
+
+                     <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          プルダウン
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          テキスト
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          数値
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          バーコード
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                          ファイル
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                           動画
+                        </button>
+                      </span>
+                      <span class="group-dis-right">
+                        <button class="plus-calc-category" mat-raised-button (click)="addGroup()">
+                          <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                           計算式
+                        </button>
+                      </span>
+                   </div>
+
+                   <!--#3-->
+                   <div class="Grop2-display2 table-part3">
+                      <mat-card id="answer-card2" class="gropu1-answerformat">
+                      <div class="icon-confg">  
+                        <span class="no-area">
+                           #3
+                        </span>
+                        <span class="answer">
+                           回答形式
+                        </span>
+                        <span class="card-value">
+                           数値
+                        </span>
+                        <span class="card-check">
+                           チェック項目
+                        </span>
+                        <span class="text-option1--area">
+                          <mat-form-field class="text-option1" appearance="outline">
+                            <mat-label>テキスト項目2</mat-label>
+                              <input matInput placeholder="Placeholder">
+                          </mat-form-field>
+                        </span>
+                        <!--#3 回答形式 プルダウン-->
+                        <span id="option-option1-areas2" class="option1-option1-area">
+                          <mat-form-field class="option-opton1-area" appearance="fill">
+                            <mat-label>条件選択</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="selectGroup1OptionSharp2" required (ngModelChange) = "SelectOptionValue2()" name="option-name">
+                              <mat-option *ngFor="let optionan of optionans" [value]="optionan.value">
+                                {{ optionan.ViewValue}}
+                             </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+                        
+                        <!--span selected1-->
+                        <span id="option-selected1-1" class="option1-option1-area">
+                          <span class="option-selected-title">選択肢</span>
+                          <span>
+                            <mat-form-field class="select-input-option1" appearance="outline">
+                              <mat-label>aaa,bbb,ccc</mat-label>
+                              <input matInput [(ngModel)]="Sharp2Inputint" placeholder="Placeholder">
+                            </mat-form-field>
+                          </span>
+                        </span>
+
+
+                        <!--#3 回答形式 チェックボックス-->
+                        <span class="checkbox-option1-area">
+                          <mat-checkbox class="example-margin">有効</mat-checkbox>
+                          <mat-checkbox class="example-margin">必須</mat-checkbox>
+                          <mat-checkbox class="example-margin">GPS</mat-checkbox>
+                          <mat-checkbox class="example-margin">TIME</mat-checkbox>
+                        </span>
+                       
+                        <span class="deletebtn-opton1-area">
+                          <button (click)="deleteGroupAnswer('number2');" class="btn-delete2" mat-mini-fab color="primary" aria-label="Example icon button with a home icon">
+                            <span class="material-icons clear-icons">
+                              clear
+                            </span>
+                          </button>
+                        </span>
+
+                        <span class="menu-icon-area">
+                         <button mat-icon-button aria-label="Example icon button with a menu icon">
+                            <mat-icon>menu</mat-icon>
+                          </button>
+                        </span>
+
+                      </div> 
+                        <!--アラートボタン #3-->
+                        <div class="icon-confg2">
+                          <span class="">
+                            <button id="warning2" mat-raised-button (click)="alertDisplaySharp()">
+                              <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                              アラート
+                            </button>
+                          </span>
+                          <br>
+                          <div id="alert-class-area2" class="alert-class-area" [style.display]="DisplaySetting2">
+                             <mat-card class="alert-mat-area">
+                              <p>
+                                <span class="alert-keyword">アラート文言</span>
+                                <mat-form-field appearance="outline">
+                                  <input matInput placeholder="(例):異常値が発生しています">
+                                </mat-form-field>
+                              </p>
+                              <p class="condition">
+                                条件
+                              </p>
+                              <p class="select-condition">
+                                <mat-form-field class="logical-area" appearance="fill">
+                                  <mat-label>選択してください</mat-label>
+                                    <mat-select matNativeControl [(ngModel)]="AlertConditionSelect" (ngModelChange)="alertSelectOption()" required>
+                                      <mat-option *ngFor="let operationnamemains of operationnamemain" [value]="operationnamemains.value">  
+                                          {{operationnamemains.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                              </p>
+                              <p>
+                                選択肢もしくは数値の選択をしてください
+                                <!--group2 その１-->  
+                                <mat-card class="condition-sub-area">
+                                  
+                                  <!--#3-->
+                                  <span>
+                                    <mat-form-field class="comparison-ope2" appearance="fill">
+                                      <mat-label>選択してください</mat-label>
+                                      <mat-select matNativeControl [(ngModel)]="selectConditionAlert2" (ngModelChange)="equalSignJudAlertSelect2()" required>
+                                        <mat-option *ngFor="let numericalitemgropu2vol2s of numericalitemgropu2vol2" [value]="numericalitemgropu2vol2s.value">  
+                                            {{numericalitemgropu2vol2s.ViewValue}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </span>
+                                   <!--条件1(数値)--> 
+                                   <span id="equalsign-display1-2">
+                                    <mat-form-field class="comparison-ope" appearance="fill">
+                                      <mat-label>等号選択</mat-label>
+                                      <mat-select matNativeControl [(ngModel)]="equalSignAlert2" (ngModelChange)="equalSignJudAlertNum2()" required>
+                                        <mat-option *ngFor="let opeconditions of opecondition" [value]="opeconditions.value">  
+                                            {{opeconditions.viewValue}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </span>
+
+                                  <!--条件2(選択肢)-->
+                                  <span id="equalsign-display2-2">
+                                    <mat-form-field class="comparison-ope" appearance="fill">
+                                      <mat-label>等号選択</mat-label>
+                                      <mat-select matNativeControl [(ngModel)]="equalSign2Alert2" (ngModelChange)="equalSignJudAlertCondition2()" required>
+                                        <mat-option *ngFor="let opeconditions2 of opecondition2" [value]="opeconditions2.value">  
+                                            {{opeconditions2.viewValue}}
+                                        </mat-option>
+                                      </mat-select>
+                                    </mat-form-field>
+                                  </span>
+
+                                  <!--#3 数値選択時-->
+                                  <span id="num2select2text2">
+                                    <mat-form-field appearance="outline">
+                                      <input matInput [(ngModel)]="AlertNumInput2" placeholder="数値を入力してください(例)0">
+                                    </mat-form-field>
+                                  </span>
+                                  <!--#3 選択肢選択時-->
+                                  <span id="num2select2option2">
+                                    <mat-form-field appearance="outline">
+                                      <input matInput  disabled placeholder="=, ≠選択したどちらかが入力されます" value={{AlertOptionSelectValue2}}>
+                                    </mat-form-field>  
+                                  </span>
+                                  
+                                </mat-card>
+                                
+
+                              </p>
+                              <p>
+                                <!--#3 条件追加の部分-->
+                                <span>
+                                  <button mat-raised-button>
+                                    <mat-icon aria-hidden="false" aria-label="Example outline icon">add_circle_outline</mat-icon>
+                                    条件
+                                  </button>
+                                </span>
+                                <span>
+                                  <mat-form-field class="option-add" appearance="fill">
+                                    <mat-label>条件選択してください</mat-label>
+                                    <mat-select matNativeControl [(ngModel)] ="selectOptionConditionAdd" (ngModelChange)="InputOptionAdd()" required>
+                                      <mat-option *ngFor="let operationnamemains of operationnamemain" [value]="operationnamemains.value">
+                                        {{ operationnamemains.viewValue}}
+                                     </mat-option>
+                                    </mat-select>
+                                  </mat-form-field> 
+                                </span>
+                              </p>
+                             </mat-card>
+                              
+                          </div> 
+                        </div>
+
+                     </mat-card><!--end Group2 #3-->
+                  </div>   
+
+
+                </mat-card>
+              </mat-list>
+              <!--end Group3-->
+
+              <!--Group4-->
+              <mat-list>
+                <mat-card id="Group-setting-frame4" class="Group2">
+                  
+                  <mat-toolbar color="basic" class="header-group2">
+
+                    <div class="sub-title-group2">
+                      <h5>項目グループ4</h5>
+                    </div> 
+
+                    <div class="icon-area">
+                      <div class="menu-icon-area2">
+                      <button (click)="deleteGroupCard('group4');" class="btn-delete2" mat-fab color="primary" aria-label="Example icon button with a bookmark icon">
+                        <span class="material-icons clear-icons　clear-icons2">
+                          clear
+                        </span>
+                      </button>
+                      </div>
+                      <div class="menu-icon-area2">
+                        <button class="menu-icon-group2" mat-icon-button aria-label="Example icon button with a menu icon">
+                         <mat-icon>menu</mat-icon>
+                       </button>
+                      </div>
+                   </div> 
+                   
+                  </mat-toolbar>
+                
+
+                  <div class="Grop2-display2">
+                    <span>表示条件</span>
+
+                    <span>
+                      <mat-form-field class="logical-area" appearance="fill">
+                      <mat-label>選択してください</mat-label>
+                        <mat-select matNativeControl [(ngModel)]="selectOptionName" required (ngModelChange)="InputCondition()" name="option-name">
+                          <mat-option *ngFor="let operationnames of operationname" [value]="operationnames.value">
+                            {{ operationnames.viewValue}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </span>
+
+                  </div>
+
+                  <div class="Grop2-display2">
+
+                     <mat-card class="condition-sub-area">
+
+                        <span class="display-span-group2">
+                            表示条件
+                        </span>
+
+                        <!--項目グループ4 条件選択 1-->
+                        <span>
+                          <mat-form-field class="Group2-display2-2" appearance="fill">
+                            <mat-label>選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="equalSignGropu4No1" (ngModelChange)="equalSignJudGropu4No1()" required>
+                              <mat-option *ngFor="let numericalitemgropu2vol2s of numericalitemgropu2vol2" [value]="numericalitemgropu2vol2s.value">
+                                  {{numericalitemgropu2vol2s.ViewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+
+                        <!--グループ4 数値・計算式-->
+                        <span id="group4-numval-part1">
+                           <mat-form-field class="comparison-ope" appearance="fill">
+                            <mat-label>選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="Group4Part2Num" (ngModelChange)="SelectNumValueGroup4()" required>
+                              <mat-option *ngFor="let opeconditiongroup2part1s of opeconditiongroup2part1" [value]="opeconditiongroup2part1s.value">  
+                                {{opeconditiongroup2part1s.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+
+                        <!-- グループ4 選択肢-->
+                        <span id="group4-choiche-part1">
+                          <mat-form-field class="comparison-ope" appearance="fill">
+                            <mat-label>選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="Group4Part2Choce" (ngModelChange)="SelectChiceGroup4()" required>
+                              <mat-option *ngFor="let opeconditiongroup2part2s of opeconditiongroup2part2" [value]="opeconditiongroup2part2s.viewValue">  
+                                {{opeconditiongroup2part2s.viewValue}}
+                              </mat-option>
+                           </mat-select>
+                          </mat-form-field>
+                        </span>
+
+                        <!--グループ4 数値選択時 テキスト その1-->
+                        <span id="group4-numvalue-disp1">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input matInput placeholder="数値">
+                          </mat-form-field>
+                        </span>
+
+                        <!--グループ4 選択肢選択時 テキスト その1-->
+                        <span id="group4-choice-disp1">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input id="" [(ngModel)]="numberGroup4ValueChoice1" disabled matInput value={{Group4Part2ChoiceText}} placeholder="選択された等号が入力されます" >
+                          </mat-form-field>
+                        </span>
+                    
+                        <span>
+                          <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                            <span class="material-icons">
+                              clear
+                            </span>
+                          </button>
+                        </span>
+
+                     </mat-card>
+
+                     <mat-card class="condition-sub-area">
+
+                        <span class="display-span-group2">
+                            表示条件
+                        </span>
+
+                        <!--項目グループ4 条件選択 2-->
+                        <span>
+                          <mat-form-field class="Group2-display2-2" appearance="fill">
+                            <mat-label>選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="equalSignGropu4No2" (ngModelChange)="equalSignJudGropu4No2()" required>
+                              <mat-option *ngFor="let numericalitemgropu2vol2s of numericalitemgropu2vol2" [value]="numericalitemgropu2vol2s.value">
+                                  {{numericalitemgropu2vol2s.ViewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+
+                        <!--グループ4 数値・計算式-->
+                        <span id="group4-numval2-part1">
+                           <mat-form-field class="comparison-ope" appearance="fill">
+                            <mat-label>選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="Group4Part2Num" (ngModelChange)="SelectNumValueGroup4()" required>
+                              <mat-option *ngFor="let opeconditiongroup2part1s of opeconditiongroup2part1" [value]="opeconditiongroup2part1s.value">  
+                                {{opeconditiongroup2part1s.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </span>
+
+                        <!-- グループ4 選択肢-->
+                        <span id="group4-choiche2-part1">
+                          <mat-form-field class="comparison-ope" appearance="fill">
+                            <mat-label>選択してください</mat-label>
+                            <mat-select matNativeControl [(ngModel)]="Group4Part2Choce2" (ngModelChange)="SelectChiceGroup4Part2()" required>
+                              <mat-option *ngFor="let opeconditiongroup2part2s of opeconditiongroup2part2" [value]="opeconditiongroup2part2s.viewValue">  
+                                {{opeconditiongroup2part2s.viewValue}}
+                              </mat-option>
+                           </mat-select>
+                          </mat-form-field>
+                        </span>
+
+                        <!--グループ4 数値選択時 テキスト その1-->
+                        <span id="group4-numvalue2-disp1">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input matInput placeholder="数値">
+                          </mat-form-field>
+                        </span>
+
+                        <!--グループ4 選択肢選択時 テキスト その1-->
+                        <span id="group4-choice2-disp1">
+                          <mat-form-field class="group2-disp2-input" appearance="outline">
+                            <input id="" [(ngModel)]="numberGroup4ValueChoice2" disabled matInput value={{Group4Part2ChoiceText2}} placeholder="選択された等号が入力されます" >
+                          </mat-form-field>
+                        </span>
+                    
+                        <span>
+                          <button mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+                            <span class="material-icons">
+                              clear
+                            </span>
+                          </button>
+                        </span>
+
+                     </mat-card>
+
+                  </div>
+
+                </mat-card>
+
+              </mat-list>
+              <!--end Group4-->
+
+              <!--登録ボタン-->
+              <mat-list>
+                <mat-list-item>
+                  <section>
+                    <div class="example-button-row2">
+                      <button mat-flat-button color="primary" (click)="CheckListForm()">
+                        <mat-icon aria-hidden="false" aria-label="Example circle icon">account_circle</mat-icon>
+                        登録
+                      </button>
+                    </div>
+                  </section> 
+                </mat-list-item>
+              </mat-list>
+                
+           </mat-tab>
+
+       </mat-tab-group>
+
+       
+      <footer>
+        <span class="copylight">
+          Copylight@Test.All rights reserved.
+        </span>
+      </footer>
+
+</div>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <style type="text/css">
+      .btn-area{
+          text-align: right;
+      }
+      div.btn-area > button.btn.light-blue.accent-2{
+          margin: 0 .75rem 0 0;
+      }
+      </style>
+  </head>
+  <body>
+    <div>
+        <h1>編集</h1>
+        <div class="row">
+            <div class="col s6 calc-_left_area">
+                <select class="browser-default">
+                    <option value="A" disabled selected>項目A</option>
+                    <option value="B">項目B</option>
+                </select>
+            </div>
+            <div class="col s6 calc_operator_area">
+                <select class="browser-default">
+                    <option value="" disabled selected>></option>
+                    <option value=""><</option>
+                    <option value="">≥</option>
+                    <option value="">≦</option>
+                    <option value="">==</option>
+                    <option value="">≠</option>
+                </select>
+            </div>
+            <div class="col s6 calc_right_area">
+                <select class="browser-default">
+                    <option value="A">項目A</option>
+                    <option value="B" disabled selected>項目B</option>
+                    <option value="text">TEXT</option>
+                </select>
+            </div>
+            <div class="col s6 calc_right_text">
+                <input matInput  placeholder="数値入力">
+            </div>
+        </div>
+        <div class="btn-area" mat-dialog-actions>
+            <button class="btn light-blue accent-2" mat-button cdkFocusInitial>
+              変更
+            </button>
+            <button class="btn grey lighten-1" mat-button (click)="CancelClose()">
+              キャンセル
+            </button>
+        </div>
+    </div>
+
+  </body>
+  </html>

@@ -1,0 +1,12 @@
+<style>
+    .dialog-message{
+        margin: 1rem 0;
+    }
+</style>
+<h1 mat-dialog-title>内容に不備があります</h1>
+<div class="dialog-message" mat-dialog-content>
+    入力内容を確認して再度登録ボタンを押下してください
+</div>
+<div mat-dialog-actions>
+  <button (click)="onNoClick();" mat-button mat-dialog-close>閉じる</button>
+</div>

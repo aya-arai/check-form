@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+      <!-- Compiled and minified CSS -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      <style type="text/css">
+         div.btn-area > button.btn.light-blue.accent-2{
+            margin: 0 .75rem 0 0;
+         }
+      </style>
+    </head>
+    <body>
+        <div>
+            <h3>削除しますか?</h3>
+        </div>
+        <div class="btn-area" mat-dialog-actions>
+            <button class="btn light-blue accent-2" mat-button cdkFocusInitial>
+              削除
+            </button>
+            <button class="btn grey lighten-1" (click)="DialogDeleteCancel()" mat-button>
+              キャンセル
+            </button>
+        </div>
+    </body>
+</html>

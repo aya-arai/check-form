@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+       <!-- Compiled and minified CSS -->
+       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+       <!-- Compiled and minified JavaScript -->
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+            
+       <style type="text/css">
+            .btn-area{
+                text-align: right;
+            }
+            div.btn-area > button.btn.light-blue.accent-2{
+                margin: 0 .75rem 0 0;
+            }
+       </style>
+  </head>
+  <body>
+    <div>
+      <h1>作成</h1>
+
+        <div class="row">
+            <div class="col s6 calc-_left_area">
+                <select name="selectname" class="browser-default">
+                    <option value="A" disabled selected>項目A</option>
+                    <option value="B">項目B</option>
+                    <option value="C">項目C</option>
+                    <option value="DD">項目DD</option>
+                </select>
+            </div>
+            <div class="col s6 calc_operator_area">
+                <select class="browser-default">
+                    <option value="" disabled selected>></option>
+                    <option value=""><</option>
+                    <option value="">≥</option>
+                    <option value="">≦</option>
+                    <option value="">==</option>
+                    <option value="">≠</option>
+                </select>
+            </div>
+            <div class="col s6 calc_right_area">
+                <select class="browser-default">
+                    <option value="A">項目A</option>
+                    <option value="B" disabled selected>項目B</option>
+                    <option value="text" id="textarea">TEXT</option>
+                </select>
+            </div>
+            <div class="col s6 calc_right_text">
+                <input id="numinput" matInput placeholder="text選択時入力してください">
+            </div>
+        </div>
+
+        <div class="btn-area" mat-dialog-actions>
+            <button class="btn light-blue accent-2" mat-button (click)="CreateTb()">
+              作成
+            </button>
+            <button class="btn grey lighten-1" mat-button (click)="CancelCreateClose()">
+              キャンセル
+            </button>
+        </div>
+
+    </div>
+      
+  </body>
+</html>

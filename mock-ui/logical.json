@@ -1,0 +1,293 @@
+ {
+    "calc_type" : "list_and", 
+    "id" : 0,
+    "calc_list" : [
+        {
+            "calc_type": "num",
+            "id":1,
+            "calc_body": [
+                { 
+                    "calc_left": {
+                        "type" : "form_items", 
+                        "id":1001,
+                        "label" :"塗料温度"
+                    },
+                    "calc_operator": "<",
+                    "calc_right_num": {
+                        "type":"text",
+                        "value":"1000"
+                    },
+                    "calc_right_select": {
+                        "type" : "form_items", 
+                        "id":1002, 
+                        "label" : "気温" 
+                    }
+                }
+            ]
+        },
+        {
+            "calc_type" : "num",
+            "id" : 2,
+            "calc_body" : [
+               {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1002,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : "<=", 
+                    "calc_right" : {
+                        "type" : "text", 
+                        "value" : "10" 
+                    } 
+               }
+            ]
+        },
+       {
+            "calc_type" : "num",
+            "id" : 3,
+            "calc_body" : [
+               {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1003,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : "=", 
+                    "calc_right" : {
+                        "type" : "text", 
+                        "value" : "10" 
+                    } 
+               }
+            ]
+        },
+       {
+            "calc_type" : "num",
+            "id" : 4,
+            "calc_body" : [
+               {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1004,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : "≠", 
+                    "calc_right" : {
+                        "type" : "text", 
+                        "value" : "10" 
+                    } 
+               }
+            ]
+        },
+        {
+            "calc_type" : "num",
+            "id" : 5,
+            "calc_body" : [
+               {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1005,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : ">", 
+                    "calc_right" : {
+                        "type" : "text", 
+                        "value" : "10" 
+                    } 
+               }
+            ]
+        },
+        {
+            "calc_type" : "num",
+            "id" : 6,
+            "calc_body" : [
+               {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1005,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : ">=", 
+                    "calc_right" : {
+                        "type" : "text", 
+                        "value" : "10" 
+                    } 
+               }
+            ]
+        },
+        {
+            "calc_type" : "list_or",
+            "id" : 7,
+            "calc_list" : [
+                {
+                    "id" : 11,
+                    "calc_body" : {
+                        "calc_left" : {
+                                "type" : "form_items", 
+                                "id":1006,
+                                "label" :"気温"
+                        },
+                        "calc_operator" : "＝", 
+                        "calc_right" : {
+                            "type" : "text", 
+                            "value" : "10" 
+                        }
+                    }
+                    
+                }
+            ]
+        },
+        {
+            "calc_type" : "list_or",
+            "id" : 8,
+            "calc_list" : [
+                {
+                    "id" : 12,
+                    "calc_body" : {
+                        "calc_left" : {
+                                "type" : "form_items", 
+                                "id":1002,
+                                "label" :"気温"
+                        },
+                        "calc_operator" : "≠", 
+                        "calc_right" : {
+                            "type" : "text", 
+                            "value" : "10" 
+                        }
+                    }
+                    
+                }
+            ]
+        },
+        {
+            "calc_type" : "choice",
+            "id" : 9,
+            "calc_body" : [
+                {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1002,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : "=",
+                    "calc_right" : { 
+                        "type" : "text", 
+                        "value" : "10" 
+                    }
+                }
+            ]
+        },
+        {
+            "calc_type" : "choice",
+            "id" : 10,
+            "calc_body" : [
+                {
+                    "calc_left" : {
+                        "type" : "form_items", 
+                        "id":1002,
+                        "label" :"気温"
+                    },
+                    "calc_operator" : "≠",
+                    "calc_right" : { 
+                        "type" : "text", 
+                        "value" : "10" 
+                    }
+                }
+            ]
+        },
+        {
+            "calc_type": "calc",
+            "id":11,
+            "calc_body": [
+                { 
+                    "calc_left": {
+                        "type" : "form_items", 
+                        "id":1001,
+                        "label" :"塗料温度"
+                    },
+                    "calc_operator": "×",
+                    "calc_right_num": {
+                        "type":"text",
+                        "value":"1000"
+                    },
+                    "calc_right_select": {
+                        "type" : "form_items", 
+                        "id":1002, 
+                        "label" : "気温" 
+                    }
+                }
+            ]
+        },
+        {
+            "calc_type": "calc",
+            "id":12,
+            "calc_body": [
+                { 
+                    "calc_left": {
+                        "type" : "form_items", 
+                        "id":1001,
+                        "label" :"塗料温度"
+                    },
+                    "calc_operator": "÷",
+                    "calc_right_num": {
+                        "type":"text",
+                        "value":"1000"
+                    },
+                    "calc_right_select": {
+                        "type" : "form_items", 
+                        "id":1002, 
+                        "label" : "気温" 
+                    }
+                }
+            ]
+        },
+        {
+            "calc_type": "calc",
+            "id":13,
+            "calc_body": [
+                { 
+                    "calc_left": {
+                        "type" : "form_items", 
+                        "id":1001,
+                        "label" :"塗料温度"
+                    },
+                    "calc_operator": "＋",
+                    "calc_right_num": {
+                        "type":"text",
+                        "value":"1000"
+                    },
+                    "calc_right_select": {
+                        "type" : "form_items", 
+                        "id":1002, 
+                        "label" : "気温" 
+                    }
+                }
+            ]
+        },
+        {
+            "calc_type": "calc",
+            "id":14,
+            "calc_body": [
+                { 
+                    "calc_left": {
+                        "type" : "form_items", 
+                        "id":1001,
+                        "label" :"塗料温度"
+                    },
+                    "calc_operator": "-",
+                    "calc_right_num": {
+                        "type":"text",
+                        "value":"1000"
+                    },
+                    "calc_right_select": {
+                        "type" : "form_items", 
+                        "id":1002, 
+                        "label" : "気温" 
+                    }
+                }
+            ]
+        }
+
+
+    ]
+ }       

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style type="text/css">
+      .btn-area{
+          margin-top: 1rem;
+      }
+      .btn-area > button.btn.light-blue.accent-2{
+          margin: 0 .75rem 0 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 mat-dialog-title>条件変更</h1>
+    <div>
+      <select class="browser-default">
+        <option value="" disabled selected>選択してください</option>
+        <option value="and">AND</option>
+        <option value="or">OR</option>
+      </select>
+    </div>
+    <div class="btn-area" mat-dialog-actions>
+      <button class="btn light-blue accent-2" mat-button cdkFocusInitial>
+        変更
+      </button>
+      <button class="btn grey lighten-1" mat-button (click)="onNoClickSecond()">
+        キャンセル
+      </button>
+    </div>
+  </body>
+</html>

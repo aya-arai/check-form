@@ -1,0 +1,66 @@
+{
+  "calc_type" : "list_and",
+  "id" : "0",
+  "calc_list" : [
+      {
+          "calc_type" : "calc",
+          "id" : "1",
+          "calc_body" : [
+            {
+              "calc_left" : {
+                   "type" : "form_items", 
+                   "id":1001,
+                   "label" :"塗料温度"
+                  }, 
+              "calc_operator" : "<", 
+              "calc_right" : {
+                  "type" : "form_items",
+                   "id":1002, 
+                   "label" : "気温" 
+                  }
+            }
+        ]
+     },
+     {
+          "calc_type" : "calc",
+          "id" : "2",
+          "calc_body" : [
+           { 
+              "calc_left" : {
+                  "type" : "form_items", 
+                  "id":1002,
+                  "label" :"気温"
+               },
+              "calc_operator" : ">", 
+              "calc_right" : { 
+                  "type" : "text", 
+                  "value" : "10" 
+              }
+           }
+         ]
+     },
+     {
+          "calc_type" : "list_or",
+          "id" : "3",
+          "calc_list" : [
+              {
+                  "id" : "10",
+                  "calc_body" : {
+                      "calc_left" : {
+                          "type" : "form_items", 
+                          "id":1002,
+                          "label" :"気温"
+                      },
+                      "calc_operator" : ">",
+                      "calc_right" : { 
+                          "type" : "text", 
+                          "value" : "10" 
+                      }
+                  }
+              }
+          ]
+      }
+   
+   ]
+  }
+  
