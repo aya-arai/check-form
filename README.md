@@ -1,6 +1,12 @@
 # check-form
-## 入力フォームモック
-### 基本情報
-L UI/基本情報.png
-### チェックリスト
-L UI/チェックリスト.png
+・フレームワーク:MaterialUI:https://material.angular.io/
+
+### 基本情報画面
+![Uploading 基本情報.png…]()
+
+### チェックリスト画面
+![Uploading 基本情報.png…]()
+
+
+
+
